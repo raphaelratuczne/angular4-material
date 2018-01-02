@@ -1,0 +1,27 @@
+@import "./app.theme.helpers";
+@import "./app.theme.custom";
+
+md-sidenav-container {
+  background-color: $cor-fundo !important;
+}
+
+md-sidenav {
+  background-color: $cor-fundo-menu !important;
+}
+
+.mat-line {
+  line-height: 24px;
+  @include user-select(none);
+}
+
+.select-company-adm {
+  width: 100%; 
+}
+
+.select-company-link {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+}

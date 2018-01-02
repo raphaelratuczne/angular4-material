@@ -1,0 +1,39 @@
+<div class="sign-container">
+  <div class="sign-background"></div>
+  <md-card class="sign-card">
+    <!-- <md-card-title>{{ txt.title }}</md-card-title> -->
+    <md-card-subtitle>{{ txt.title }}</md-card-subtitle>
+    <br>
+    <md-card-content>
+
+      <div md-dialog-actions class="action-flex">
+        <div class="space-flex"></div>
+        <button md-raised-button color="primary" (click)="selectCompany(0)">{{ txt.buttons }}</button>
+      </div>
+
+      <div class="listArea">
+
+        <md-nav-list>
+
+          <ng-container *ngFor="let city of companiesList">
+            <h3 mdSubheader>{{ city.city }}</h3>
+            <ng-container *ngFor="let company of city.companies; last as l">
+              <md-list-item (click)="selectCompany(company.id)">
+                <md-icon>keyboard_arrow_right</md-icon>
+                <a mdLine>{{ company.name }}</a>
+              </md-list-item>
+              <md-divider *ngIf="!l"></md-divider>
+            </ng-container>
+          </ng-container>
+
+        </md-nav-list>
+
+      </div>
+
+    </md-card-content>
+
+    <!-- <md-card-actions>
+      <button md-raised-button color="primary">Unlock</button>
+    </md-card-actions> -->
+  </md-card>
+</div>

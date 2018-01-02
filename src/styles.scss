@@ -1,0 +1,365 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Global style configuration
+//----------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------
+// Core style sheet
+//---------------------------------------------------------
+@import "app/app.theme.bootstrap";
+@import "app/app.theme.material";
+@import "app/app.theme.helpers";
+//---------------------------------------------------------
+// Custom style sheet
+// You can write your style sheet in this file,
+// or import 3rd party plugin style sheet here.
+//---------------------------------------------------------
+@import "app/app.theme.custom";
+
+/*
+lista de icones usados:
+
+highlight_off      cancelar
+delete             excluir
+create             editar
+info_outline       info
+thumb_up           ativo
+thumb_down         nao ativo
+replay             redefinir
+folder             pasta
+file_upload        upload
+school             nova matricula
+assignment         lista matriculas
+open_in_browser    abrir no navegador
+ */
+
+// cores de texto
+.texto-primario {
+  color: $cor-primario !important;
+}
+.texto-secundario {
+  color: $cor-secundario !important;
+}
+.texto-sucesso {
+  color: $cor-sucesso !important;
+}
+.texto-info {
+  color: $cor-info !important;
+}
+.texto-alerta {
+  color: $cor-alerta !important;
+}
+.texto-perigo {
+color: $cor-perigo !important;
+}
+.texto-cinza {
+  color: $cor-cinza !important;
+}
+
+.bs {
+  width: 100%;
+}
+
+md-dialog-container {
+  max-width: 100% !important;
+}
+
+// barra de loading
+.loading-geral {
+  position: absolute !important;
+  z-index: 1;
+  margin-top: 64px;
+}
+
+
+// mensagens de erro
+.text-danger {
+  color: $cor-fonte-erro;
+}
+
+// alerta de erro
+.bg-danger {
+  padding: 5px;
+  background-color: $cor-fundo-erro;
+}
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  p:first-child {
+    margin-top: 0;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+.alert:last-child {
+  margin-bottom: 0;
+}
+.alert-danger {
+  color: $cor-fonte-erro;
+  background-color: $cor-fundo-erro;
+  border-color: $cor-borda-erro;
+  margin-top: -5px;
+}
+.alert-warning {
+  color: $cor-fonte-alerta;
+  background-color: $cor-fundo-alerta;
+  border-color: $cor-borda-alerta;
+  margin-top: -5px;
+}
+.alert-success {
+  color: $cor-fonte-sucesso;
+  background-color: $cor-fundo-sucesso;
+  border-color: $cor-borda-sucesso;
+  margin-top: -5px;
+}
+.alert-info {
+  color: $cor-fonte-info;
+  background-color: $cor-fundo-info;
+  border-color: $cor-borda-info;
+  margin-top: -5px;
+}
+.alert-dismissible {
+  padding-right: 35px;
+
+  .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+  }
+}
+button.close {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+}
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.alert-sup {
+  margin: 8px;
+}
+
+// campo invalido
+.invalido {
+  color: $cor-label-erro;
+
+  .mat-input-placeholder,
+  .mat-select-placeholder {
+    color: $cor-label-erro !important;
+  }
+
+  .mat-input-ripple.mat-focused {
+    background-color: $cor-label-erro !important;
+  }
+}
+
+// cabecalho
+h3 {
+  color: $cor-cabecalho;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $cor-primario;
+}
+
+// area de formulario
+.form-area1 {
+  margin: 4px;
+  padding: 8px;
+  @include border-radius(4px);
+  border: 1px solid $cor-fundo-menu;
+  background-color: $cor-fundo;
+
+  &.card-form-input {
+    padding-left: 16px !important;
+    padding-bottom: 10px;
+  }
+}
+
+// select
+md-select {
+  padding: 18px 0;
+  margin-top: 1px !important;
+
+  &.mat-select-disabled {
+    .mat-select-value {
+      color: darkgrey !important;
+    }
+  }
+}
+
+// input containers
+.mat-input-container,
+.mat-select {
+  margin-top: 10px;
+}
+
+// placeholder
+.mat-input-placeholder,
+.mat-select-placeholder,
+.md2-datepicker-placeholder {
+  color: $cor-label !important;
+}
+
+// autocomplete
+.topnav-search {
+  .md2-autocomplete-input {
+    color: white !important;
+  }
+}
+
+// botao
+button.right {
+  float: right;
+  margin: 0 10px !important;
+}
+button.left {
+  float: left;
+}
+
+// chips
+.md-chip-list-wrapper {
+  @include border-radius(4px);
+  border: 1px solid $cor-fundo-menu;
+  background-color: $cor-fundo;
+  padding: 10px;
+  display: block;
+  margin-bottom: 15px;
+}
+.mat-chip {
+  font-size: 16px !important;
+  margin: auto 2px;
+  a {
+    color: $cor-fundo-quase-branco;
+    cursor: pointer;
+    .mat-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      transform: translate(2px, 2px);
+    }
+  }
+}
+.mat-chip:not(.mat-basic-chip):focus {
+  box-shadow: 0 3px 3px -2px rgba(0,0,0,.2),
+              0 3px 4px 0 rgba(0,0,0,.14),
+              0 1px 8px 0 rgba(0,0,0,.12);
+  outline: 0;
+}
+
+// md-radio-button
+.mat-radio-disabled {
+  .mat-radio-inner-circle {
+    background-color: $cor-fundo-menu !important;
+  }
+}
+.input-radio {
+  padding-top: 18px !important;
+
+  .mat-radio-button {
+    margin-right: 10px;
+  }
+
+  error-message {
+    display: inline-block;
+    margin-top: 15px;
+  }
+}
+
+// lista de itens
+.bs {
+  md-list {
+    md-list-item {
+      &:hover {
+        @include border-radius(4px);
+        background-color: $cor-fundo-quase-branco;
+        &.clicavel {
+          cursor: pointer;
+        }
+      }
+      &.selecionado {
+        background-color: $cor-fundo-menu;
+      }
+    }
+    .mat-list-item-content {
+      md-icon {
+        @extend .texto-primario;
+        transform: translate(-5px, -2px);
+      }
+      a {
+        @extend .texto-sucesso;
+      }
+    }
+  }
+}
+
+.action-flex {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+
+  .space-flex {
+    flex: 1 1 auto;
+  }
+
+  button {
+    margin: auto 5px;
+  }
+  button:first-child {
+    margin-left: 0;
+  }
+  button:last-child {
+    margin-right: 0;
+  }
+}
+
+.progress-bar-dialog {
+  transform: scaleX(1.105) translateY(24px) !important;
+}
+
+
+// tabelas
+.table {
+  width: 100%;
+
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: $cor-fundo !important;
+  }
+}
+
+
+// // esconde conteudos de acordo com o tamanho da tela
+// @media (max-width: 575px) {
+//   .hidden-xs-only {
+//     display: none !important
+//   }
+// }
+// @media (min-width: 576px) and (max-width: 767px) {
+//   .hidden-sm-only {
+//     display: none !important
+//   }
+// }
+// @media (min-width: 768px) and (max-width: 991px) {
+//   .hidden-md-only {
+//     display: none !important
+//   }
+// }
+// @media (min-width: 992px) and (max-width: 1199px) {
+//   .hidden-lg-only {
+//     display: none !important
+//   }
+// }
+// @media (min-width: 1200px) {
+//   .hidden-xl-only {
+//     display: none !important
+//   }
+// }

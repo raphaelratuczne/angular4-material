@@ -1,0 +1,253 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div formGroupName="company">
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex="35">
+            <md-input-container [class.invalido]="formErrors['company.cnpj'].length > 0">
+              <input
+                mdInput
+                [textMask]="{mask:cnpjMask, guide:false}"
+                placeholder="{{ txt.fields.cnpj.label }}"
+                type="text"
+                formControlName="cnpj"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                (change)="changeCnpj()"
+                maxlength="18">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['company.cnpj']"></error-message>
+          </div>
+
+          <div class="card-form-input" fxFlex>
+            <!-- <div class="alert alert-warning alert-dismissible alert-sup" *ngIf="cnpjMsg">
+              <button (click)="cnpjMsg = null" type="button" class="close">
+                <span>×</span>
+              </button>
+              {{ cnpjMsg }}
+            </div> -->
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['company.name'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.name.label }}"
+                type="text"
+                formControlName="name"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="50">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['company.name']"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['company.tradingName'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.tradingName.label }}"
+                type="text"
+                formControlName="tradingName"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="100">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['company.tradingName']"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['company.stateModuleR'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.stateModuleR.label }}"
+                type="text"
+                formControlName="stateModuleR"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="30">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['company.stateModuleR']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['company.email'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.email.label }}"
+                type="text"
+                formControlName="email"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="100">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['company.email']"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['company.phoneNumber'].length > 0">
+              <input
+                mdInput
+                [textMask]="{mask:phoneMask, guide:false}"
+                placeholder="{{ txt.fields.phoneNumber.label }}"
+                type="text"
+                formControlName="phoneNumber"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="15">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['company.phoneNumber']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <h3>{{ txt.h3 }}</h3>
+
+        <div formGroupName="address">
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['company.address.zipcode'].length > 0">
+                <input
+                  mdInput
+                  [textMask]="{mask:cepMask, guide:false}"
+                  (blur)="searchCEP()"
+                  placeholder="{{ txt.fields.zipcode.label }}"
+                  type="text"
+                  formControlName="zipcode"
+                  class="form-control"
+                  required
+                  maxlength="9">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['company.address.zipcode']"></error-message>
+            </div>
+            <div class="card-form-input" fxFlex></div>
+            <div class="card-form-input" fxFlex></div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['company.address.street'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.street.label }}"
+                  type="text"
+                  formControlName="street"
+                  class="form-control"
+                  required
+                  (blur)="onChangeValues()"
+                  maxlength="200">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['company.address.street']"></error-message>
+            </div>
+            <!-- <div class="card-form-input" fxFlex></div> -->
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['company.address.number'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.number.label }}"
+                  type="text"
+                  formControlName="number"
+                  class="form-control"
+                  required
+                  (blur)="onChangeValues()"
+                  maxlength="20">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['company.address.number']"></error-message>
+            </div>
+
+            <div class="card-form-input" fxFlex="65">
+              <md-input-container [class.invalido]="formErrors['company.address.complement'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.complement.label }}"
+                  type="text"
+                  formControlName="complement"
+                  class="form-control"
+                  (blur)="onChangeValues()"
+                  maxlength="50">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['company.address.complement']"></error-message>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['company.address.cityArea'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.cityArea.label }}"
+                  type="text"
+                  formControlName="cityArea"
+                  class="form-control"
+                  required
+                  (blur)="onChangeValues()"
+                  maxlength="100">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['company.address.cityArea']"></error-message>
+            </div>
+            <div class="card-form-input" fxFlex="30"></div>
+          </div>
+
+          <div formGroupName="city">
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+              <div class="card-form-input" fxFlex>
+                <md-select
+                  style="width:100%"
+                  [class.invalido]="formErrors['company.address.city.id'].length > 0"
+                  placeholder="{{ txt.fields.city.label }}"
+                  (onClose)="onChangeValues()"
+                  formControlName="id">
+                  <md-option *ngFor="let item of listCities" [value]="item.id">{{ item.name }}</md-option>
+                </md-select>
+                <error-message [listErrors]="formErrors['company.address.city.id']"></error-message>
+              </div>
+              <div class="card-form-input" fxFlex></div>
+            </div>
+
+          </div><!-- formGroupName="city" -->
+
+        </div><!-- formGroupName="address" -->
+
+      </div><!-- formGroupName="company" -->
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

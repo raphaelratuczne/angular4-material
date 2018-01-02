@@ -1,0 +1,48 @@
+<div class="sign-container">
+  <div class="sign-background"></div>
+  <md-card class="sign-card">
+    <md-card-title><img style="height: 64px;" src="assets/img/logo-full.svg"></md-card-title>
+    <md-card-subtitle>{{ txt.title }}</md-card-subtitle>
+    <br>
+    <md-card-content>
+
+      <form class="form" [formGroup]="form" (ngSubmit)="send()">
+        <md-input-container>
+          <input
+            mdInput
+            type="password"
+            placeholder="{{ txt.fields.password.label }}"
+            class="form-control"
+            formControlName="password"
+            (blur)="onChangeValues()"
+            maxlength="100"
+            value="">
+        </md-input-container>
+        <error-message [listErrors]="formErrors.password"></error-message>
+
+        <md-input-container>
+          <input
+            mdInput
+            type="password"
+            placeholder="{{ txt.fields.rePass.label }}"
+            class="form-control"
+            formControlName="rePass"
+            (blur)="onChangeValues()"
+            maxlength="100"
+            value="">
+        </md-input-container>
+        <error-message [listErrors]="formErrors.rePass"></error-message>
+      </form>
+
+    </md-card-content>
+    <md-card-actions>
+      <button md-raised-button color="primary" [disabled]="loading" (click)="send()">{{ txt.buttons.save }}</button>
+    </md-card-actions>
+    <md-card-footer>
+      <div class="alert alert-danger" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+      <md-progress-bar *ngIf="loading" mode="indeterminate"></md-progress-bar>
+    </md-card-footer>
+  </md-card>
+</div>

@@ -1,0 +1,133 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div formGroupName="drivingSchool">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-select
+              style="width:100%"
+              required
+              [class.invalido]="formErrors['drivingSchool.id'].length > 0"
+              placeholder="{{ txt.fields.drivingSchool.label }}"
+              (onClose)="onChangeValues()"
+              formControlName="id">
+              <md-option *ngFor="let item of cfcList" [value]="item.id">{{ item.company.name }}</md-option>
+            </md-select>
+            <error-message [listErrors]="formErrors['drivingSchool.id']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md2-datepicker
+            formControlName="startDate"
+            type="date"
+            required
+            placeholder="{{ txt.fields.startDate.label }}"
+            (onClose)="onChangeValues()"
+            [disabled]="form.get('startDate').disabled"
+            format="dd/MM/yyyy">
+          </md2-datepicker>
+          <error-message [listErrors]="formErrors.startDate"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex>
+          <md2-datepicker
+            formControlName="endDate"
+            type="date"
+            required
+            placeholder="{{ txt.fields.endDate.label }}"
+            (onClose)="onChangeValues()"
+            [disabled]="form.get('endDate').disabled"
+            format="dd/MM/yyyy">
+          </md2-datepicker>
+          <error-message [listErrors]="formErrors.endDate"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.lessonPrice.length > 0">
+            <input
+              mdInput
+              [textMask]="{mask:numberMask, guide:false}"
+              placeholder="{{ txt.fields.lessonPrice.label }}"
+              type="text"
+              formControlName="lessonPrice"
+              class="form-control"
+              required
+              (change)="changeSufix()"
+              maxlength="17">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.lessonPrice"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" style="padding-top:27px" fxFlex="60">
+          {{ txt.fields.advanceDaysToAlert.label.pre }}
+        </div>
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.advanceDaysToAlert.length > 0">
+            <input
+              mdInput
+              type="text"
+              [textMask]="{mask:daysMask, guide:false}"
+              placeholder="{{ txt.fields.advanceDaysToAlert.label.label }}"
+              formControlName="advanceDaysToAlert"
+              class="form-control"
+              (blur)="onChangeValues()"
+              maxlength="4">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.advanceDaysToAlert"></error-message>
+        </div>
+      </div>
+      <p>{{ txt.fields.advanceDaysToAlert.label.pos }}</p>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="70">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            style="width:100%"
+            formControlName="selectedUser"
+            placeholder="{{ txt.fields.usersToAlert.label }}"
+            (change)="onSelectValue($event)">
+            <md-option *ngFor="let item of usersList" [value]="item.id">{{ item.firstName }} {{ item.lastName }}</md-option>
+          </md-select>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div formArrayName="usersToAlert">
+
+        <md-chip-list class="md-chip-list-stacked">
+          <md-chip color="primary" selected="true" *ngFor="let user of usersToAlert.controls; let i=index" [formGroupName]="i">
+            {{ user.get('name').value }}
+            <a (click)="removeSelectedUser(user.get('id').value)">
+              <md-icon mdChipRemove>cancel</md-icon>
+            </a>
+          </md-chip>
+        </md-chip-list>
+        <error-message [listErrors]="formErrors.usersToAlert"></error-message>
+
+      </div> <!-- formArrayName="usersToAlert" -->
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

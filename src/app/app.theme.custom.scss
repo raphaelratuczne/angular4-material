@@ -1,0 +1,68 @@
+@import "app.theme";
+//----------------------------------------------------------------------------------------------------------------------
+// Custom style sheet
+//----------------------------------------------------------------------------------------------------------------------
+@mixin custom-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  // Custom your theme here with material palette.
+
+  //body {
+  //  background-color: mat-color($background, background);
+  //  color: mat-color($primary);
+  //}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Mixin light theme
+//----------------------------------------------------------------------------------------------------------------------
+body.light {
+  $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+  @include custom-theme($theme);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Mixin dark theme
+//----------------------------------------------------------------------------------------------------------------------
+body.dark {
+  $theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
+  @include custom-theme($theme);
+}
+
+
+// variaveis
+$cor-primario: #009688;
+$cor-secundario: #ffd740;
+$cor-sucesso: #4caf50;
+$cor-info: #2196f3;
+$cor-alerta: #ff9800;
+$cor-perigo: #f44336;
+$cor-cinza: #969696;
+
+$cor-fonte-erro: #a94442;
+$cor-fundo-erro: #f2dede;
+$cor-borda-erro: #ebccd1;
+$cor-label-erro: red;
+
+$cor-fonte-sucesso: #3c763d;
+$cor-fundo-sucesso: #dff0d8;
+$cor-borda-sucesso: #d6e9c6;
+
+$cor-fonte-info: #31708f;
+$cor-fundo-info: #d9edf7;
+$cor-borda-info: #bce8f1;
+
+$cor-fonte-alerta: #8a6d3b;
+$cor-fundo-alerta: #fcf8e3;
+$cor-borda-alerta: #faebcc;
+
+$cor-fundo-quase-branco: #e9e9e9;
+$cor-fundo: #dddddd;
+$cor-fundo-menu: #d7d7d7;
+$cor-label: #454545;
+$cor-cabecalho: #323232;

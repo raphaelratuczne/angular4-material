@@ -1,0 +1,17 @@
+
+<md-chip-list class="md-chip-list-stacked">
+  <md-chip
+    class="draggable"
+    [ngClass]="ev.color"
+    selected="true"
+    *ngFor="let ev of eventsList"
+    [attr.data-event]="tojson(ev)">
+    {{ ev.title }}
+  </md-chip>
+</md-chip-list>
+
+<div class="calendario-sup-area">
+  <div class="calendario-area">
+    <div class="schedule-calendar-container"></div>
+  </div>
+</div>

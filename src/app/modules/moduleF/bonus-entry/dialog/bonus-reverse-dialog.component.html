@@ -1,0 +1,66 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ !data.reversed && data.bonusValue > 0 ? txt.modalCancelBonus.title.cancel : txt.modalCancelBonus.title.canceled }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            style="width:100%"
+            required
+            placeholder="{{ txt.fields.drivingSchoolId.label }}"
+            formControlName="drivingSchoolname">
+            <md-option value="{{ drivingSchoolname }}">{{ drivingSchoolname }}</md-option>
+          </md-select>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container>
+            <input
+              mdInput
+              placeholder="{{ txt.fields.bonusValue.label }}"
+              type="text"
+              formControlName="bonusValue"
+              class="form-control"
+              required>
+          </md-input-container>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.justification.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.justification.label }}"
+              type="text"
+              formControlName="justification"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="500">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.justification"></error-message>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ !data.reversed && data.bonusValue > 0 ? txt.modalCancelBonus.buttons.cancel : txt.modalCancelBonus.buttons.close }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent && (!data.reversed && data.bonusValue > 0)" [disabled]="loading" color="warn" type="submit">
+        {{ txt.modalCancelBonus.buttons.ok }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

@@ -1,0 +1,68 @@
+<div class="sign-container" *ngIf="showLogin">
+  <div class="sign-background"></div>
+  <md-card class="sign-card">
+    <md-card-title><img style="height: 64px;" src="assets/img/logo-full.svg"></md-card-title>
+    <!-- <md-card-subtitle>Sign in to continue.</md-card-subtitle> -->
+    <br>
+    <md-card-content>
+      <form class="form" [formGroup]="form" (ngSubmit)="send()">
+
+        <md-input-container>
+          <input
+            mdInput
+            [textMask]="{mask:cpfMask, guide:false}"
+            type="text"
+            placeholder="{{ txt.fields.cpf.label }}"
+            class="form-control"
+            formControlName="cpf"
+            (blur)="onChangeValues()"
+            maxlength="14"
+            value="">
+        </md-input-container>
+        <error-message [listErrors]="formErrors.cpf"></error-message>
+
+        <md-input-container>
+          <input
+            mdInput
+            type="password"
+            placeholder="{{ txt.fields.password.label }}"
+            class="form-control"
+            formControlName="password"
+            (blur)="onChangeValues()"
+            maxlength="100"
+            value="">
+        </md-input-container>
+        <error-message [listErrors]="formErrors.password"></error-message>
+
+      </form>
+
+      <md-checkbox [(ngModel)]="rememberMe" [disabled]="loading">{{ txt.buttons.rememberMe }}</md-checkbox>
+
+    </md-card-content>
+    <md-card-actions>
+      <button md-raised-button color="primary" [disabled]="loading" (click)="send()">{{ txt.buttons.login }}</button>
+    </md-card-actions>
+    <md-card-footer>
+      <div class="alert alert-danger" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+      <md-progress-bar *ngIf="loading" mode="indeterminate"></md-progress-bar>
+    </md-card-footer>
+  </md-card>
+  <br>
+  <p>
+    <!-- <button type="button" name="button" (click)="showFormResetPass()">
+      <md-icon class="texto-primario">lock</md-icon>
+      {{ txt.buttons.forgotPass }}
+    </button> -->
+    <a (click)="showFormResetPass()">
+      <md-icon class="texto-primario">lock</md-icon>
+      {{ txt.buttons.forgotPass }}
+    </a>
+  </p>
+</div>
+
+<!-- <form-debug [form]="form"></form-debug> -->
+
+<router-outlet></router-outlet>
+<div class="appVersion">v{{ appVersion }}</div>

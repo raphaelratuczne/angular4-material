@@ -1,0 +1,116 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div formGroupName="simulator">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-select
+              style="width:100%"
+              [class.invalido]="formErrors['simulator.id'].length > 0"
+              placeholder="{{ txt.fields.serialNumber.label }}"
+              (onClose)="onChangeValues()"
+              formControlName="id">
+              <md-option *ngFor="let item of simulatorsList" [value]="item.id">{{ item.serialNumber }}</md-option>
+            </md-select>
+            <error-message [listErrors]="formErrors['simulator.id']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md2-datepicker
+            formControlName="startDate"
+            type="datetime"
+            required
+            placeholder="{{ txt.fields.startDate.label }}"
+            (onClose)="onChangeValues()"
+            [disabled]="form.get('startDate').disabled"
+            format="dd/MM/yy HH:mm">
+          </md2-datepicker>
+          <error-message [listErrors]="formErrors.startDate"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md2-datepicker
+            formControlName="endDate"
+            type="datetime"
+            required
+            placeholder="{{ txt.fields.endDate.label }}"
+            (onClose)="onChangeValues()"
+            [disabled]="form.get('endDate').disabled || isActualy"
+            format="dd/MM/yy HH:mm">
+          </md2-datepicker>
+          <error-message [listErrors]="formErrors.endDate"></error-message>
+        </div>
+
+        <div class="card-form-input" fxFlex>
+          <md-slide-toggle [checked]="isActualy" (change)="changedActualy($event.checked)">{{ txt.fields.actual.label }}</md-slide-toggle>
+        </div>
+      </div>
+
+      <div formGroupName="softwareVersion">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-select
+              style="width:100%"
+              [class.invalido]="formErrors['softwareVersion.id'].length > 0"
+              placeholder="{{ txt.fields.softwareVersion.label }}"
+              (onClose)="onChangeValues()"
+              formControlName="id">
+              <md-option *ngFor="let item of softwareVersionList" [value]="item.id">{{ item.version }}</md-option>
+            </md-select>
+            <error-message [listErrors]="formErrors['softwareVersion.id']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-radio-group [value]="company" (change)="onSelectValue($event.value)">
+            <md-radio-button value="drivingSchool">{{ txt.fields.company.label.drivingSchool }}</md-radio-button>
+            <md-radio-button value="sharedUnit">{{ txt.fields.company.label.sharedUnit }}</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+
+      <div formGroupName="company">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-select
+              style="width:100%"
+              [class.invalido]="formErrors['company.id'].length > 0"
+              placeholder="{{ txt.fields.company.label.local }}"
+              (onClose)="onChangeValues()"
+              formControlName="id">
+              <md-option *ngFor="let item of companyList" [value]="item.id">{{ item.name }}</md-option>
+            </md-select>
+            <error-message [listErrors]="formErrors['company.id']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

@@ -1,0 +1,65 @@
+<h1 md-dialog-title>{{ txt.modal.title.list }}</h1>
+<div md-dialog-content>
+
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+    <section class="bs">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th hideBy="card" biggerThan="590">
+                {{ txt.modal.fields.colNumEnrollment.label }}<br>
+                {{ txt.modal.fields.colDate.label }}<br>
+                {{ txt.modal.fields.colLessonsType.label }}<br>
+                {{ txt.modal.fields.colNumLessonsLoaded.label }}<br>
+                {{ txt.modal.fields.colPaymentType.label }}
+              </th>
+
+              <th hideBy="card" lessThan="591">{{ txt.modal.fields.colNumEnrollment.label }}</th>
+              <th hideBy="card" lessThan="591">{{ txt.modal.fields.colDate.label }}</th>
+              <th hideBy="card" lessThan="591">{{ txt.modal.fields.colLessonsType.label }}</th>
+              <th hideBy="card" lessThan="591">{{ txt.modal.fields.colNumLessonsLoaded.label }}</th>
+              <th hideBy="card" lessThan="591">{{ txt.modal.fields.colPaymentType.label }}</th>
+
+              <th class="actions" style="width:92px;" *ngIf="permission.authUpdate"> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listData()">
+              <td hideBy="card" biggerThan="590">
+                {{ item.id }}<br>
+                {{ item.enrollmentDate | date:'dd/MM/yyyy HH:mm:ss' }}<br>
+                {{ txt.modal.fields.colLessonsType.options[item.lessonsType] }}<br>
+                {{ item.numLessonsLoaded }}<br>
+                {{ txt.modal.fields.colPaymentType.options[item.paymentType] }}
+              </td>
+
+              <td hideBy="card" lessThan="591">{{ item.id }}</td>
+              <td hideBy="card" lessThan="591">{{ item.enrollmentDate | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+              <td hideBy="card" lessThan="591">{{ txt.modal.fields.colLessonsType.options[item.lessonsType] }}</td>
+              <td hideBy="card" lessThan="591">{{ item.numLessonsLoaded }}</td>
+              <td hideBy="card" lessThan="591">{{ txt.modal.fields.colPaymentType.options[item.paymentType] }}</td>
+
+              <td class="actions" *ngIf="permission.authUpdate">
+                <a
+                  md-icon-button
+                  (click)="cancelEnrollment(item)"
+                  *ngIf="permission.authUpdate"
+                  [disabled]="item.status === 4">
+                  <md-icon [ngClass]="{'texto-cinza': item.status === 4, 'texto-perigo': item.status !== 4}">highlight_off</md-icon>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+</div>
+<div md-dialog-actions class="action-flex">
+  <div class="space-flex"></div>
+  <button md-raised-button color="default" (click)="cancel($event)">
+    {{ txt.modal.buttons.close }}
+  </button>
+</div>

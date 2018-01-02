@@ -1,0 +1,106 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.cpf.length > 0">
+            <input
+              mdInput
+              [textMask]="{mask:cpfMask, guide:false}"
+              placeholder="{{ txt.fields.cpf.label }}"
+              type="text"
+              formControlName="cpf"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="14">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.cpf"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.firstName.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.firstName.label }}"
+              type="text"
+              formControlName="firstName"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="30">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.firstName"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.lastName.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.lastName.label }}"
+              type="text"
+              formControlName="lastName"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="80">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.lastName"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.email.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.email.label }}"
+              type="email"
+              formControlName="email"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="100">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.email"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            [class.invalido]="formErrors.userTypeId.length > 0"
+            placeholder="{{ txt.fields.userTypeId.label }}"
+            (onClose)="onChangeValues()"
+            formControlName="userTypeId">
+            <md-option *ngFor="let item of typesList" [value]="item.id">{{ item.value }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.userTypeId"></error-message>
+        </div>
+      </div>
+
+      <md-slide-toggle formControlName="active">{{ txt.fields.active.label }}</md-slide-toggle>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

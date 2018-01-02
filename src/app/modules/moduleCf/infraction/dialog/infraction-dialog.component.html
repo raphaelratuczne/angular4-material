@@ -1,0 +1,116 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (forAdd ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.code.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.code.label }}"
+              [textMask]="{mask:codeMask, guide:false}"
+              type="text"
+              formControlName="code"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="5">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.code"></error-message>
+        </div>
+
+        <div class="card-form-input" fxFlex>
+          <md-select
+            style="width:100%"
+            [class.invalido]="formErrors.category.length > 0"
+            placeholder="{{ txt.fields.category.label }}"
+            (onClose)="onChangeValues()"
+            formControlName="category">
+            <md-option *ngFor="let item of categoriesList" [value]="item.id">{{ item.value }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.category"></error-message>
+        </div>
+
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.points.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.points.label }}"
+              [textMask]="{mask:pointsMask, guide:false}"
+              type="text"
+              formControlName="points"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="2">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.points"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.article.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.article.label }}"
+              type="text"
+              formControlName="article"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="10">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.article"></error-message>
+        </div>
+
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.paragraph.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.paragraph.label }}"
+              type="text"
+              formControlName="paragraph"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="10">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.paragraph"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.law.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.law.label }}"
+              type="text"
+              formControlName="law"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="255">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.law"></error-message>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

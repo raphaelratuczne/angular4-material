@@ -1,0 +1,212 @@
+<div class="page-content">
+
+  <div class="alert alert-danger alert-dismissible alert-sup" *ngIf="errorMsgLoading">
+    <button (click)="errorMsgLoading = null" type="button" class="close">
+      <span>×</span>
+    </button>
+    {{ errorMsgLoading }}
+  </div>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <md-card class="page-card"  id="card">
+      <md-card-title>{{ txt?.title }}</md-card-title>
+      <md-card-content>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-select
+              style="width:100%"
+              required
+              [class.invalido]="formErrors.drivingSchoolId.length > 0"
+              placeholder="{{ txt.fields.drivingSchoolId.label }}"
+              (onClose)="onChangeValues()"
+              (change)="onChooseCfc($event.value)"
+              formControlName="drivingSchoolId">
+              <md-option *ngFor="let item of cfcList" [value]="item.id">{{ item.company.name }}</md-option>
+            </md-select>
+            <error-message [listErrors]="formErrors.drivingSchoolId"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex="25">
+            <md-input-container [class.invalido]="formErrors.creditValue.length > 0">
+              <input
+                mdInput
+                [textMask]="{mask:numberMask, guide:false}"
+                placeholder="{{ txt.fields.creditValue.label }}"
+                type="text"
+                formControlName="creditValue"
+                class="form-control"
+                required
+                (change)="changeSufix()"
+                maxlength="17">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.creditValue"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.justification.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.justification.label }}"
+                type="text"
+                formControlName="justification"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="500">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.justification"></error-message>
+          </div>
+        </div>
+        <br>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <div ng2FileDrop
+              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+              (fileOver)="fileOverBase($event)"
+              [uploader]="uploader"
+              (click)="file.click()"
+              class="well my-drop-zone texto-cinza">
+              <p>{{ txt.fields.dragAndDrop.label }}</p>
+              <p><md-icon>file_upload</md-icon></p>
+              <p>(ou clique)</p>
+            </div>
+          </div>
+          <div class="card-form-input" fxFlex>
+            <input
+              style="display:none"
+              #file
+              (change)="fileOverBase(0)"
+              type="file"
+              ng2FileSelect
+              [uploader]="uploader"
+              multiple/>
+
+            <div class="alert alert-danger alert-dismissible alert-sup" *ngIf="msgErrorFile">
+              <button (click)="msgErrorFile = null" type="button" class="close">
+                <span>×</span>
+              </button>
+              {{ msgErrorFile }}
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <p>{{ txt.fields.evidences.label }}*</p>
+            <error-message [listErrors]="formErrors.evidences"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+          <section class="bs" *ngIf="uploader.queue.length > 0">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>nome</th>
+                    <th>tamanho</th>
+                    <th class="actions" style="width:94px;"> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploader.queue">
+                    <td>{{ item.file.name }}</td>
+                    <td>{{ item.file.size / 1024 / 1024 | number:'.2' }}</td>
+                    <td class="actions">
+                      <a md-icon-button (click)="item.remove()" *ngIf="!uploader.isUploading"><md-icon class="texto-perigo">delete</md-icon></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <br>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <div class="progress" *ngIf="uploader.isUploading">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+            </div>
+          </div>
+          <!-- <div class="card-form-input" fxFlex></div> -->
+        </div>
+
+        <br>
+
+        <button
+          *ngIf="permission.authUpdate"
+          class="right"
+          md-raised-button
+          [disabled]="loading"
+          color="primary"
+          type="submit">{{ txt.buttons.save }}</button>
+
+        <br>
+        <br>
+        <br>
+
+        <h3>{{ txt.h3 }}</h3>
+
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+          <section class="bs">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th hideBy="card" biggerThan="590">
+                      {{ txt.fields.date.label }}<br>
+                      {{ txt.fields.type.label }}<br>
+                      {{ txt.fields.value.label }}<br>
+                      {{ txt.fields.user.label }}
+                    </th>
+
+                    <th hideBy="card" lessThan="591">{{ txt.fields.date.label }}</th>
+                    <th hideBy="card" lessThan="591">{{ txt.fields.type.label }}</th>
+                    <th hideBy="card" lessThan="591">{{ txt.fields.value.label }}</th>
+                    <th hideBy="card" lessThan="591">{{ txt.fields.user.label }}</th>
+
+                    <th class="actions" style="width:94px;" *ngIf="permission.authUpdate || permission.authDelete"> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of creditList">
+                    <td hideBy="card" biggerThan="590">
+                      {{ item.entryDate | date:'dd/MM/yyyy HH:mm:ss' }}<br>
+                      {{ creditType[item.type] }}<br>
+                      <span [ngClass]="moneyToNumber(item.creditValue) > 0 ? 'texto-info': 'texto-perigo'">{{ item.creditValue }}</span><br>
+                      {{ item.user.firstName }} {{ item.user.lastName }}
+                    </td>
+
+                    <td hideBy="card" lessThan="591">{{ item.entryDate | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                    <td hideBy="card" lessThan="591">{{ creditType[item.type] }}</td>
+                    <td hideBy="card" lessThan="591" [ngClass]="item.creditValue.indexOf('-') < 0 ? 'texto-info': 'texto-perigo'">{{ item.creditValue }}</td>
+                    <td hideBy="card" lessThan="591">{{ item.user.firstName }} {{ item.user.lastName }}</td>
+
+                    <td class="actions" *ngIf="permission.authUpdate">
+                      <a md-icon-button (click)="showForm(item)" *ngIf="item.reversed || moneyToNumber(item.creditValue) < 0"><md-icon class="texto-primario">info_outline</md-icon></a>
+                      <a md-icon-button (click)="showForm(item)" *ngIf="permission.authUpdate && !item.reversed && moneyToNumber(item.creditValue) > 0"><md-icon class="texto-perigo">highlight_off</md-icon></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- <form-debug [form]="form"></form-debug> -->
+      </md-card-content>
+    </md-card>
+  </form>
+</div>

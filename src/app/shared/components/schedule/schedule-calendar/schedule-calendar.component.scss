@@ -1,0 +1,46 @@
+// #external-events {
+//   .draggable {
+// 		margin: 10px 0;
+// 		cursor: pointer;
+//     background-color: blue;
+//     color: white;
+//     padding: 5px;
+//     width: 160px;
+//     border-radius: 5px;
+// 	}
+//
+// }
+
+.calendario-sup-area {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  overflow-x: scroll;
+  .calendario-area {
+    min-width: 600px;
+  }
+}
+
+.draggable {
+  user-select: none;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+
+  &:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
+}
+
+.green {
+  background-color: #4caf50 !important;
+}
+.blue {
+  background-color: #2196f3 !important;
+}
+.yellow {
+  background-color: #ff9800 !important;
+}

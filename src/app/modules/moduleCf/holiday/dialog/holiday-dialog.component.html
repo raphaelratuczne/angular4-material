@@ -1,0 +1,66 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input input-radio" fxFlex>
+          {{ txt.fields.type.label }}
+          <md-radio-group formControlName="type">
+            <md-radio-button *ngFor="let item of typesList" [value]="item.id">
+              {{ item.value }}
+            </md-radio-button>
+          </md-radio-group>
+          <error-message [listErrors]="formErrors.type"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxflex>
+          <md2-datepicker
+            formControlName="holidayDate"
+            type="date"
+            required
+            placeholder="{{ txt.fields.holidayDate.label }}"
+            (onClose)="onChangeValues()"
+            [disabled]="form.get('holidayDate').disabled"
+            format="dd/MM/yyyy">
+          </md2-datepicker>
+          <error-message [listErrors]="formErrors.holidayDate"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.description.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.description.label }}"
+              type="text"
+              formControlName="description"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="50">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.description"></error-message>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

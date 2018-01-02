@@ -1,0 +1,153 @@
+<div class="page-content">
+
+  <div class="alert alert-danger alert-dismissible alert-sup" *ngIf="errorMsgLoading">
+    <button (click)="errorMsgLoading = null" type="button" class="close">
+      <span>×</span>
+    </button>
+    {{ errorMsgLoading }}
+  </div>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <md-card class="page-card">
+      <md-card-title>{{ txt?.title }}</md-card-title>
+      <!-- <md-card-subtitle>{{ txt?.subtitulo.generalParams }}</md-card-subtitle> -->
+      <md-card-content>
+
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.description.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.description.label }}"
+                type="text"
+                formControlName="description"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="100">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.description"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.server.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.server.label }}"
+                type="text"
+                formControlName="server"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="100">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.server"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.port.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.port.label }}"
+                type="text"
+                [textMask]="{mask:portMask, guide:false}"
+                formControlName="port"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="5">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.port"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.username.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.username.label }}"
+                type="text"
+                formControlName="username"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="50">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.username"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.password.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.password.label }}"
+                type="password"
+                formControlName="password"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="50">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.password"></error-message>
+          </div>
+        </div>
+
+        <md-slide-toggle formControlName="enableSSL">{{ txt.fields.enableSSL.label }}</md-slide-toggle>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.timeout.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.timeout.label }}"
+                type="text"
+                [textMask]="{mask:timeoutMask, guide:false}"
+                formControlName="timeout"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="3">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.timeout"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+      </md-card-content>
+
+      <md-card-actions class="action-flex">
+        <button
+          md-raised-button
+          [disabled]="loading"
+          color="accent"
+          (click)="sendEmail($event)">{{ txt.buttons.sendEmail }}</button>
+
+        <div class="space-flex"></div>
+
+        <button
+          *ngIf="permission.authUpdate"
+          md-raised-button
+          [disabled]="loading"
+          color="primary"
+          type="submit">{{ txt.buttons.save }}</button>
+      </md-card-actions>
+      <md-card-footer>
+        <div class="alert alert-danger" *ngIf="errorMsgSent">
+          {{ errorMsgSent }}
+        </div>
+        <!-- <md-progress-bar *ngIf="loading" mode="indeterminate"></md-progress-bar> -->
+      </md-card-footer>
+    </md-card>
+  </form>
+</div>
+
+<!-- <form-debug [form]="form"></form-debug> -->

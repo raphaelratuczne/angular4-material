@@ -1,0 +1,44 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+  <h1 md-dialog-title>{{ txt.title.clone }}</h1>
+  <div md-dialog-content>
+    <p>{{ txt.messages.cloneMsg }}</p>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+      <div class="card-form-input" fxFlex="70">
+        <md-select
+          [class.invalido]="formErrors.sourceSoftwareVersionId.length > 0"
+          placeholder="{{ txt.fields.sourceSoftwareVersionId.label }}"
+          (onClose)="onChangeValues()"
+          formControlName="sourceSoftwareVersionId">
+          <md-option *ngFor="let item of listVersions" [value]="item.id">{{ item.version }}</md-option>
+        </md-select>
+        <error-message [listErrors]="formErrors.sourceSoftwareVersionId"></error-message>
+      </div>
+      <div class="card-form-input" fxFlex></div>
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+      <div class="card-form-input" fxFlex="70">
+        <md-select
+          [class.invalido]="formErrors.destSoftwareVersionId.length > 0"
+          placeholder="{{ txt.fields.destSoftwareVersionId.label }}"
+          (onClose)="onChangeValues()"
+          formControlName="destSoftwareVersionId">
+          <md-option *ngFor="let item of listVersions" [value]="item.id">{{ item.version }}</md-option>
+        </md-select>
+        <error-message [listErrors]="formErrors.destSoftwareVersionId"></error-message>
+      </div>
+      <div class="card-form-input" fxFlex></div>
+    </div>
+  </div>
+
+  <div md-dialog-actions class="action-flex">
+    <div class="space-flex"></div>
+    <button md-raised-button [disabled]="loading" color="default" (click)="cancel()">
+      {{ txt.buttons.cancel }}
+    </button>
+    <button md-raised-button [disabled]="loading" color="warn" type="submit">
+      {{ txt.buttons.save }}
+    </button>
+  </div>
+</form>

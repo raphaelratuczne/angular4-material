@@ -1,0 +1,81 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.description.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.description.label }}"
+              type="text"
+              formControlName="description"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="30">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.description"></error-message>
+        </div>
+      </div>
+
+      <h5>{{ txt.fields.permissions.label }}</h5>
+      <div formArrayName="permissions">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+          <section class="bs">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>{{ txt.fields.funcionality.label }}</th>
+
+                    <th class="actions" style="width:90px;">{{ txt.fields.authCreate.label }}</th>
+                    <th class="actions" style="width:90px;">{{ txt.fields.authUpdate.label }}</th>
+                    <th class="actions" style="width:95px;">{{ txt.fields.authDelete.label }}</th>
+                    <th class="actions" style="width:105px;">{{ txt.fields.authRead.label }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let permission of permissions.controls; let i=index" [formGroupName]="i">
+                    <tr *ngIf="showAdmin(permission.get('feature.enabledInAdminArea').value) || showSchool(permission.get('feature.enabledInSchoolArea').value)">
+                      <td>{{ permission.get('feature.description').value }}</td>
+
+                      <td style="text-align:center">
+                        <md-checkbox formControlName="authCreate"></md-checkbox>
+                      </td>
+                      <td style="text-align:center">
+                        <md-checkbox formControlName="authUpdate"></md-checkbox>
+                      </td>
+                      <td style="text-align:center">
+                        <md-checkbox formControlName="authDelete"></md-checkbox>
+                      </td>
+                      <td style="text-align:center">
+                        <md-checkbox formControlName="authRead"></md-checkbox>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>
+<!-- <md-progress-bar class="progress-bar-dialog" *ngIf="loading" mode="indeterminate"></md-progress-bar> -->

@@ -1,0 +1,348 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (form.get('id').value !== null ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <h3>{{ txt.h3.personalData }}</h3>
+
+      <div formGroupName="person">
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['person.cpf'].length > 0">
+              <input
+                mdInput
+                [textMask]="{mask:cpfMask, guide:false}"
+                placeholder="{{ txt.fields.cpf.label }}"
+                type="text"
+                formControlName="cpf"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="14">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.cpf']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['person.name'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.name.label }}"
+                type="text"
+                formControlName="name"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="255">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.name']"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['person.email'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.email.label }}"
+                type="email"
+                formControlName="email"
+                class="form-control"
+                (blur)="onChangeValues()"
+                maxlength="100">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.email']"></error-message>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <div class="card-form-input">
+              <md2-datepicker
+                style="width:100%"
+                formControlName="birthDate"
+                type="date"
+                placeholder="{{ txt.fields.birthDate.label }}"
+                (onClose)="onChangeValues()"
+                [disabled]="form.get('person.birthDate').disabled"
+                format="dd/MM/yyyy">
+              </md2-datepicker>
+              <error-message [listErrors]="formErrors['person.birthDate']"></error-message>
+            </div>
+          </div>
+          <div class="card-form-input input-radio" fxFlex></div>
+        </div>
+
+        <br>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input input-radio" fxFlex="70">
+            {{ txt.fields.gender.label.sex }}
+            <md-radio-group formControlName="gender">
+              <md-radio-button value="M">
+                {{ txt.fields.gender.label.m }}
+              </md-radio-button>
+              <md-radio-button value="F">
+                {{ txt.fields.gender.label.f }}
+              </md-radio-button>
+            </md-radio-group>
+            <error-message [listErrors]="formErrors['person.gender']"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <br>
+
+        <h3>{{ txt.h3.identityDoc }}</h3>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['person.rg'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.rg.label }}"
+                type="text"
+                formControlName="rg"
+                class="form-control"
+                (blur)="onChangeValues()"
+                maxlength="20">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.rg']"></error-message>
+          </div>
+
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['person.rgExpeditionAgency'].length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.rgExpeditionAgency.label }}"
+                type="text"
+                formControlName="rgExpeditionAgency"
+                class="form-control"
+                (blur)="onChangeValues()"
+                maxlength="20">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.rgExpeditionAgency']"></error-message>
+          </div>
+
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+
+          <div class="card-form-input" fxFlex>
+            <div formGroupName="rgState">
+              <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+                <div class="card-form-input" fxFlex>
+                  <md-select
+                    [class.invalido]="formErrors['person.rgState.id'].length > 0"
+                    placeholder="{{ txt.fields.rgState.label }}"
+                    (onClose)="onChangeValues()"
+                    formControlName="id">
+                    <md-option *ngFor="let item of listState" [value]="item.id">{{ item.name }}</md-option>
+                  </md-select>
+                  <error-message [listErrors]="formErrors['person.rgState.id']"></error-message>
+                </div>
+              </div>
+            </div> <!-- formGroupName="city" -->
+          </div>
+
+          <div class="card-form-input" fxFlex>
+            <div class="card-form-input">
+              <md2-datepicker
+                style="width:100%"
+                formControlName="rgExpeditionDate"
+                type="date"
+                placeholder="{{ txt.fields.rgExpeditionDate.label }}"
+                (onClose)="onChangeValues()"
+                [disabled]="form.get('person.rgExpeditionDate').disabled"
+                format="dd/MM/yyyy">
+              </md2-datepicker>
+              <error-message [listErrors]="formErrors['person.rgExpeditionDate']"></error-message>
+            </div>
+          </div>
+
+        </div>
+
+        <h3>{{ txt.h3.contactInfo }}</h3>
+
+        <div formGroupName="address">
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['person.address.zipcode'].length > 0">
+                <input
+                  mdInput
+                  [textMask]="{mask:cepMask, guide:false}"
+                  placeholder="{{ txt.fields.zipcode.label }}"
+                  type="text"
+                  formControlName="zipcode"
+                  class="form-control"
+                  (blur)="onChangeValues()"
+                  (change)="searchCEP()"
+                  maxlength="9">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['person.address.zipcode']"></error-message>
+            </div>
+            <div class="card-form-input" fxFlex></div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['person.address.street'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.street.label }}"
+                  type="text"
+                  formControlName="street"
+                  class="form-control"
+                  (blur)="onChangeValues()"
+                  maxlength="200">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['person.address.street']"></error-message>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex="30">
+              <md-input-container [class.invalido]="formErrors['person.address.number'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.number.label }}"
+                  type="text"
+                  formControlName="number"
+                  class="form-control"
+                  (blur)="onChangeValues()"
+                  maxlength="20">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['person.address.number']"></error-message>
+            </div>
+
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['person.address.complement'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.complement.label }}"
+                  type="text"
+                  formControlName="complement"
+                  class="form-control"
+                  (blur)="onChangeValues()"
+                  maxlength="50">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['person.address.complement']"></error-message>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+            <div class="card-form-input" fxFlex>
+              <md-input-container [class.invalido]="formErrors['person.address.cityArea'].length > 0">
+                <input
+                  mdInput
+                  placeholder="{{ txt.fields.cityArea.label }}"
+                  type="text"
+                  formControlName="cityArea"
+                  class="form-control"
+                  (blur)="onChangeValues()"
+                  maxlength="100">
+              </md-input-container>
+              <error-message [listErrors]="formErrors['person.address.cityArea']"></error-message>
+            </div>
+
+            <div class="card-form-input" fxFlex>
+
+              <div formGroupName="city">
+                <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+                  <div class="card-form-input" fxFlex>
+                    <md-select
+                      style="width:100%"
+                      [class.invalido]="formErrors['person.address.city.id'].length > 0"
+                      placeholder="{{ txt.fields.city.label }}"
+                      (onClose)="onChangeValues()"
+                      formControlName="id">
+                      <md-option *ngFor="let item of listCities" [value]="item.id">{{ item.name }}</md-option>
+                    </md-select>
+                    <error-message [listErrors]="formErrors['person.address.city.id']"></error-message>
+                  </div>
+                </div>
+              </div> <!-- formGroupName="city" -->
+
+            </div>
+          </div>
+
+        </div> <!-- formGroupName="address" -->
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+
+            <md-input-container [class.invalido]="formErrors['person.phoneNumber'].length > 0">
+              <input
+                mdInput
+                [textMask]="{mask:phoneMask, guide:false}"
+                placeholder="{{ txt.fields.phoneNumber.label }}"
+                type="text"
+                formControlName="phoneNumber"
+                class="form-control"
+                (blur)="onChangeValues()"
+                maxlength="14">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.phoneNumber']"></error-message>
+          </div>
+
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors['person.cellPhoneNumber'].length > 0">
+              <input
+                mdInput
+                [textMask]="{mask:cellPhoneMask, guide:false}"
+                placeholder="{{ txt.fields.cellPhoneNumber.label }}"
+                type="text"
+                formControlName="cellPhoneNumber"
+                class="form-control"
+                (blur)="onChangeValues()"
+                maxlength="15">
+            </md-input-container>
+            <error-message [listErrors]="formErrors['person.cellPhoneNumber']"></error-message>
+          </div>
+        </div>
+
+      </div> <!-- formGroupName="person" -->
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <h3>{{ txt.h3.authorization }}</h3>
+        </div>
+        <div class="card-form-input" fxFlex>
+          <h3>{{ txt.h3.situation }}</h3>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-slide-toggle formControlName="authTheoricalLesson">{{ txt.fields.authTheoricalLesson.label }}</md-slide-toggle>
+          <md-slide-toggle formControlName="authPraticalLesson">{{ txt.fields.authPraticalLesson.label }}</md-slide-toggle>
+          <md-slide-toggle formControlName="authSimulatorLesson">{{ txt.fields.authSimulatorLesson.label }}</md-slide-toggle>
+          <error-message [listErrors]="formErrors.authTheoricalLesson"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex>
+          <md-slide-toggle formControlName="active">{{ txt.fields.active.label }}</md-slide-toggle>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

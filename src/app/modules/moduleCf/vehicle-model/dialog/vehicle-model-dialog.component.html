@@ -1,0 +1,73 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (forAdd ? txt.title.edit : txt.title.new) }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.id.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.id.label }}"
+              type="text"
+              [textMask]="{mask:codeMask, guide:false}"
+              formControlName="id"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="6">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.id"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.description.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.description.label }}"
+              type="text"
+              formControlName="description"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="20">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.description"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            [class.invalido]="formErrors.vehicleType.length > 0"
+            placeholder="{{ txt.fields.vehicleType.label }}"
+            (onClose)="onChangeValues()"
+            formControlName="vehicleType">
+            <md-option *ngFor="let item of listVehicleTypes" [value]="item.id">{{ item.description }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.vehicleType"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>
+<!-- <md-progress-bar class="progress-bar-dialog" *ngIf="loading" mode="indeterminate"></md-progress-bar> -->
+
+<!-- <form-debug [form]="form"></form-debug> -->

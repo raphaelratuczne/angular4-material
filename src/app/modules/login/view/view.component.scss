@@ -1,0 +1,26 @@
+@import "../../../app.theme.custom";
+
+.sign-container {
+  text-align: center;
+  margin-top: 86px;
+  .sign-background {
+    position: fixed;
+    margin-top: -250px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.038;
+    background: url('/assets/img/logo-full-noborder.svg') no-repeat center;
+  }
+  .sign-card {
+    margin: 0 auto;
+    width: 600px;
+
+    .listArea {
+      width: 100%;
+      height: 350px;
+      background-color: $cor-fundo-menu;
+      margin-top: 15px;
+      overflow: auto;
+    }
+  }
+}

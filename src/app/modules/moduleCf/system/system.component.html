@@ -1,0 +1,292 @@
+<div class="page-content">
+
+  <div class="alert alert-danger alert-dismissible alert-sup" *ngIf="errorMsgLoading">
+    <button (click)="errorMsgLoading = null" type="button" class="close">
+      <span>×</span>
+    </button>
+    {{ errorMsgLoading }}
+  </div>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <md-card class="page-card">
+      <md-card-title>{{ txt?.title }}</md-card-title>
+      <!-- <md-card-subtitle>{{ txt?.subtitulo.generalParams }}</md-card-subtitle> -->
+      <md-card-content>
+
+        <h3>{{ txt.h3.generalParams }}</h3>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.externalAccessUrl.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.externalAccessUrl.label }}"
+                type="text"
+                formControlName="externalAccessUrl"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="200">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.externalAccessUrl"></error-message>
+          </div>
+
+        </div>
+
+        <h3>{{ txt.h3.diaryParams }}</h3>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex>
+            <md2-datepicker
+              formControlName="scheduleOpenTime"
+              type="time"
+              required
+              placeholder="{{ txt.fields.scheduleOpenTime.label }}"
+              (onClose)="onChangeValues()"
+              [disabled]="form.get('scheduleOpenTime').disabled"
+              format="HH:mm">
+            </md2-datepicker>
+            <error-message [listErrors]="formErrors.scheduleOpenTime"></error-message>
+          </div>
+
+          <div class="card-form-input" fxFlex>
+            <md2-datepicker
+              formControlName="scheduleCloseTime"
+              type="time"
+              required
+              placeholder="{{ txt.fields.scheduleCloseTime.label }}"
+              (onClose)="onChangeValues()"
+              [disabled]="form.get('scheduleCloseTime').disabled"
+              format="HH:mm">
+            </md2-datepicker>
+            <error-message [listErrors]="formErrors.scheduleCloseTime"></error-message>
+          </div>
+
+          <div class="card-form-input" fxFlex>
+            <md-select
+              [class.invalido]="formErrors.scheduleTimeDivision.length > 0"
+              placeholder="{{ txt.fields.scheduleTimeDivision.label }}"
+              (onClose)="onChangeValues()"
+              formControlName="scheduleTimeDivision">
+              <md-option *ngFor="let item of listOpts" [value]="item.id">{{ item.value }}</md-option>
+            </md-select>
+            <error-message [listErrors]="formErrors.scheduleTimeDivision"></error-message>
+          </div>
+        </div>
+
+        <h3>{{ txt.h3.diaryParamsSim }}</h3>
+
+        <md-slide-toggle formControlName="lessonScheduler">{{ txt.fields.lessonScheduler.label }}</md-slide-toggle>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input form-area1" fxFlex>
+
+            <h4>{{ txt.h4.detranClassLoose }}</h4>
+
+            <md-input-container [class.invalido]="formErrors.officialLessonTotalTime.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.officialLessonTotalTime.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="officialLessonTotalTime"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.officialLessonTotalTime"></error-message>
+
+            <md-input-container [class.invalido]="formErrors.officialLessonEffectiveTime.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.officialLessonEffectiveTime.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="officialLessonEffectiveTime"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.officialLessonEffectiveTime"></error-message>
+          </div>
+
+          <div class="card-form-input form-area1" fxFlex>
+
+            <h4>{{ txt.h4.freeClass }}</h4>
+
+            <md-input-container [class.invalido]="formErrors.freeLessonTotalTime.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.freeLessonTotalTime.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="freeLessonTotalTime"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.freeLessonTotalTime"></error-message>
+
+            <md-input-container [class.invalido]="formErrors.freeLessonEffectiveTime.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.freeLessonEffectiveTime.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="freeLessonEffectiveTime"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.freeLessonEffectiveTime"></error-message>
+
+            <md-input-container [class.invalido]="formErrors.maxNumFreeLessonsPerDay.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.maxNumFreeLessonsPerDay.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="maxNumFreeLessonsPerDay"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.maxNumFreeLessonsPerDay"></error-message>
+
+          </div>
+        </div>
+
+        <br>
+        <br>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex></div>
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.maxNumLessonsPerDayPerStudent.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.maxNumLessonsPerDayPerStudent.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="maxNumLessonsPerDayPerStudent"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.maxNumLessonsPerDayPerStudent"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex></div>
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.maxNumLessonsInSequencePerStudent.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.maxNumLessonsInSequencePerStudent.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="maxNumLessonsInSequencePerStudent"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.maxNumLessonsInSequencePerStudent"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex></div>
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.minIntervalBetweenLessonsSequence.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.minIntervalBetweenLessonsSequence.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="minIntervalBetweenLessonsSequence"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.minIntervalBetweenLessonsSequence"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex></div>
+          <div class="card-form-input" fxFlex>
+            <md-input-container [class.invalido]="formErrors.maxSimultaneousLessonsPerInstructor.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.maxSimultaneousLessonsPerInstructor.label }}"
+                type="text"
+                [textMask]="{mask:numMask4, guide:false}"
+                formControlName="maxSimultaneousLessonsPerInstructor"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="4">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.maxSimultaneousLessonsPerInstructor"></error-message>
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+        <h3>{{ txt.h3.finParams }}</h3>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+          <div class="card-form-input" fxFlex></div>
+          <div class="card-form-input" fxFlex>
+
+            <md-input-container [class.invalido]="formErrors.maxSizeAttachment.length > 0">
+              <input
+                mdInput
+                placeholder="{{ txt.fields.maxSizeAttachment.label }}"
+                type="text"
+                [textMask]="{mask:numMask6, guide:false}"
+                formControlName="maxSizeAttachment"
+                class="form-control"
+                required
+                (blur)="onChangeValues()"
+                maxlength="6">
+            </md-input-container>
+            <error-message [listErrors]="formErrors.maxSizeAttachment"></error-message>
+
+          </div>
+          <div class="card-form-input" fxFlex></div>
+        </div>
+
+      </md-card-content>
+
+      <md-card-actions  class="action-flex">
+        <div class="space-flex"></div>
+        <button
+          *ngIf="permission.authUpdate"
+          md-raised-button
+          [disabled]="loading"
+          color="primary"
+          type="submit">{{ txt.buttons.save }}</button>
+      </md-card-actions>
+      <md-card-footer>
+        <div class="alert alert-danger" *ngIf="errorMsgSent">
+          {{ errorMsgSent }}
+        </div>
+        <!-- <md-progress-bar *ngIf="loading" mode="indeterminate"></md-progress-bar> -->
+      </md-card-footer>
+    </md-card>
+  </form>
+</div>
+
+<!-- <form-debug [form]="form"></form-debug> -->

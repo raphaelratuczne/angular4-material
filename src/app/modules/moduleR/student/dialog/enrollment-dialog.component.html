@@ -1,0 +1,119 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ txt.title }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="70">
+          <md2-autocomplete
+            formControlName="student"
+            disabled="disabled"
+            placeholder="{{ txt.fields.student.label }}"
+            [items]="items"
+            item-text="name"
+            item-value="id">
+          </md2-autocomplete>
+          <error-message [listErrors]="formErrors.student"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            [class.invalido]="formErrors.lessonsCategory.length > 0"
+            placeholder="{{ txt.fields.lessonsCategory.label }}"
+            (onClose)="onChangeValues()"
+            formControlName="lessonsCategory">
+            <md-option *ngFor="let item of listCategories" [value]="item.id">{{ item.value }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.lessonsCategory"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="40">
+          <md-select
+            [class.invalido]="formErrors.lessonsType.length > 0"
+            placeholder="{{ txt.fields.lessonsType.label }}"
+            (onClose)="onChangeValues()"
+            formControlName="lessonsType">
+            <md-option *ngFor="let item of listLessonTypes" [value]="item.id">{{ item.value }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.lessonsType"></error-message>
+        </div>
+
+        <div class="card-form-input" fxFlex="50">
+          <md-input-container
+            [class.invalido]="formErrors.departmentProcessNumber.length > 0"
+            *ngIf="form.get('lessonsType').value === 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.departmentProcessNumber.label }}"
+              type="text"
+              formControlName="departmentProcessNumber"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="50">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.departmentProcessNumber"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="40">
+          <md-input-container [class.invalido]="formErrors.numLessonsLoaded.length > 0">
+            <input
+            mdInput
+            placeholder="{{ form.get('lessonsType').value === 2 ? txt.fields.numLessonsLoaded.label.numberLessons : txt.fields.numLessonsLoaded.label.workload }}"
+            type="text"
+            formControlName="numLessonsLoaded"
+            class="form-control"
+            required
+            (blur)="onChangeValues()"
+            [maxlength]="maxLength">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.numLessonsLoaded"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex>
+        </div>
+      </div>
+
+      <p *ngIf="current != null" class="texto-info">{{ txt.fields.paymentValue.label }} {{ enrollmentValue }}</p>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="70">
+          <md-select
+            style="width:100%"
+            *ngIf="form.get('lessonsType').value !== 2"
+            [class.invalido]="formErrors.paymentType.length > 0"
+            placeholder="{{ txt.fields.paymentType.label }}"
+            (onClose)="onChangeValues()"
+            formControlName="paymentType">
+            <md-option *ngFor="let item of listPaymentTypes" [value]="item.id">{{ item.value }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.paymentType"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <p *ngIf="hasContract" class="texto-perigo">{{ txt.messages.noEnrollment }}</p>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ txt.buttons.cancel }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

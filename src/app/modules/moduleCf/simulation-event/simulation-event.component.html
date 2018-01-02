@@ -1,0 +1,89 @@
+<div class="page-content">
+
+  <div class="alert alert-danger alert-dismissible alert-sup" *ngIf="errorMsgLoading">
+    <button (click)="errorMsgLoading = null" type="button" class="close">
+      <span>×</span>
+    </button>
+    {{ errorMsgLoading }}
+  </div>
+
+  <md-card class="page-card" id="card">
+    <md-card-title>{{ txt.title.list }}</md-card-title>
+    <!-- <md-card-subtitle>{{ txt?.subtitulo }}</md-card-subtitle> -->
+    <md-card-content>
+
+      <button
+        *ngIf="permission.authCreate"
+        class="right"
+        md-raised-button
+        [disabled]="loading"
+        color="primary"
+        (click)="showForm()">{{ txt.buttons.new }}</button>
+
+      <br>
+      <br>
+      <br>
+      <br>
+
+      <div fxLayout="row">
+        <md-icon class="card-form-input-icon" fxflex>search</md-icon>
+        <div fxFlex="70">
+          <md-input-container>
+            <input
+              mdInput
+              placeholder="{{ txt.fields.filter }}"
+              [(ngModel)]="filter"
+              type="text"
+              class="form-control"
+              maxlength="100">
+          </md-input-container>
+        </div>
+        <div fxFlex></div>
+      </div>
+
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+        <section class="bs">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th hideBy="card" biggerThan="590">
+                    {{ txt.fields.id.label }}<br>
+                    {{ txt.fields.category.label }}<br>
+                    {{ txt.fields.description.label }}
+                  </th>
+
+                  <th hideBy="card" lessThan="591" style="width:105px">{{ txt.fields.id.label }}</th>
+                  <th hideBy="card" lessThan="591" style="width:105px">{{ txt.fields.category.label }}</th>
+                  <th hideBy="card" lessThan="591">{{ txt.fields.description.label }}</th>
+
+                  <th class="actions" style="width:136px;" *ngIf="permission.authUpdate || permission.authDelete"> </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listData()">
+                  <td hideBy="card" biggerThan="590">
+                    {{ item.id }}<br>
+                    {{ categoriesList[item.category] }}<br>
+                    {{ item.description }}
+                  </td>
+
+                  <td hideBy="card" lessThan="591">{{ item.id }}</td>
+                  <td hideBy="card" lessThan="591">{{ categoriesList[item.category] }}</td>
+                  <td hideBy="card" lessThan="591">{{ item.description }}</td>
+
+                  <td class="actions" *ngIf="permission.authUpdate || permission.authDelete">
+                    <a md-icon-button (click)="showForm(item)" *ngIf="permission.authUpdate"><md-icon class="texto-primario">create</md-icon></a>
+                    <a md-icon-button (click)="delete(item.id)" *ngIf="permission.authDelete"><md-icon class="texto-perigo">delete</md-icon></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+    </md-card-content>
+  </md-card>
+</div>

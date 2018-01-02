@@ -1,0 +1,84 @@
+<div class="page-content">
+  <md-card class="page-card">
+    <md-card-title>{{ txt.title.list }}</md-card-title>
+    <md-card-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100" *ngIf="drivingSchoolListLoaded && drivingSchoolList.length > 0">
+        <div class="card-form-input" fxFlex="70">
+          <md2-autocomplete
+            [(ngModel)]="drivingSchoolId"
+            placeholder="{{ txt.fields.drivingSchoolId.label }}"
+            [items]="drivingSchoolList"
+            item-text="name"
+            item-value="id"
+            (change)="onChange()"
+            [disabled]="!drivingSchoolListLoaded">
+          </md2-autocomplete>
+          <!-- <error-message [listErrors]="formErrors.student"></error-message> -->
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md2-autocomplete
+            [(ngModel)]="studentId"
+            placeholder="{{ txt.fields.studentId.label }}"
+            [items]="studentList"
+            item-text="name"
+            item-value="id"
+            (change)="onChangeStudent()"
+            [disabled]="!studentListLoaded">
+          </md2-autocomplete>
+          <!-- <error-message [listErrors]="formErrors.student"></error-message> -->
+        </div>
+
+        <div class="card-form-input" fxFlex>
+          <md2-autocomplete
+            [(ngModel)]="instructorId"
+            placeholder="{{ txt.fields.instructorId.label }}"
+            [items]="instructorList"
+            item-text="name"
+            item-value="id"
+            (change)="onChange()"
+            [disabled]="!instructorListLoaded">
+          </md2-autocomplete>
+          <!-- <error-message [listErrors]="formErrors.student"></error-message> -->
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="40">
+          <md-select
+            [(ngModel)]="vehicleModelId"
+            placeholder="{{ txt.fields.vehicleModelId.label }}"
+            style="width:100%"
+            (change)="onChange()"
+            [disabled]="!vehiclesListLoaded">
+            <md-option *ngFor="let item of vehiclesList" [value]="item.id">{{ item.name }}</md-option>
+          </md-select>
+          <!-- <error-message [listErrors]="formErrors.vehicleModelId"></error-message> -->
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxflex>
+          <md2-datepicker
+            type="date"
+            [(ngModel)]="date"
+            placeholder="{{ txt.fields.date.label }}"
+            (change)="onChangeDate()"
+            format="dd/MM/yyyy">
+          </md2-datepicker>
+          <!-- <error-message [listErrors]="formErrors.holidayDate"></error-message> -->
+        </div>
+        <div class="card-form-input" fxflex></div>
+      </div>
+
+      <p (click)="showForm()">{{ txt.pAvaliableLessons }}</p>
+
+      <lk-schedule-calendar [options]="options" [eventsList]="eventsList"></lk-schedule-calendar>
+    </md-card-content>
+  </md-card>
+</div>

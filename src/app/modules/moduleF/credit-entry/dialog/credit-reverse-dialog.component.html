@@ -1,0 +1,82 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ (!data.reversed && moneyToNumber(data.creditValue) > 0) ? txt.modalCancelCredit.title.cancel : txt.modalCancelCredit.title.canceled }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            style="width:100%"
+            required
+            placeholder="{{ txt.fields.drivingSchoolId.label }}"
+            formControlName="drivingSchoolname">
+            <md-option value="{{ drivingSchoolname }}">{{ drivingSchoolname }}</md-option>
+          </md-select>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container>
+            <input
+              mdInput
+              placeholder="{{ txt.fields.creditValue.label }}"
+              type="text"
+              formControlName="creditValue"
+              class="form-control"
+              required>
+          </md-input-container>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-input-container [class.invalido]="formErrors.justification.length > 0">
+            <input
+              mdInput
+              placeholder="{{ txt.fields.justification.label }}"
+              type="text"
+              formControlName="justification"
+              class="form-control"
+              required
+              (blur)="onChangeValues()"
+              maxlength="500">
+          </md-input-container>
+          <error-message [listErrors]="formErrors.justification"></error-message>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="80" fxFlexOffset="10">
+        <div class="card-form-input form-area1" fxFlex>
+          <section class="bs">
+            <md-list>
+              <md-list-item
+                *ngFor="let item of data.evidences"
+                class="clicavel"
+                (click)="selectFile(item)">
+                  <md-icon mdListIcon>open_in_browser</md-icon>
+                  <a>{{ item.fileName }}</a>
+              </md-list-item>
+            </md-list>
+          </section>
+        </div>
+      </div>
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ !data.reversed && data.creditValue.indexOf('-') < 0 ? txt.modalCancelCredit.buttons.cancel : txt.modalCancelCredit.buttons.close }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent && (!data.reversed && data.creditValue.indexOf('-') < 0)" [disabled]="loading" color="warn" type="submit">
+        {{ txt.modalCancelCredit.buttons.ok }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>

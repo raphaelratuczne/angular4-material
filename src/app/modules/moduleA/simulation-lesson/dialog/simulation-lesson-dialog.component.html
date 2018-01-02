@@ -1,0 +1,150 @@
+<form class="form" [formGroup]="form" (ngSubmit)="send()">
+    <h1 md-dialog-title>{{ txt.title.list }}</h1>
+    <div md-dialog-content>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxflex>
+          <md2-datepicker
+            type="date"
+            formControlName="startDate"
+            placeholder="{{ txt.fields.date.label }}"
+            disabled="true"
+            format="dd/MM/yyyy">
+          </md2-datepicker>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100" *ngIf="data.drivingSchoolList.length > 0">
+        <div class="card-form-input" fxFlex="70">
+          <md-select
+            style="width:100%"
+            disabled="true"
+            formControlName="drivingSchoolId"
+            placeholder="{{ txt.fields.drivingSchoolId.label }}">
+            <md-option *ngFor="let item of data.drivingSchoolList" [value]="item.id">{{ item.name }}</md-option>
+          </md-select>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="70">
+          <md-select
+            style="width:100%"
+            disabled="true"
+            formControlName="studentId"
+            placeholder="{{ txt.fields.studentId.label }}">
+            <md-option *ngFor="let item of data.studentList" [value]="item.id">{{ item.name }}</md-option>
+          </md-select>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="50">
+          <md-select
+            style="width:100%"
+            disabled="true"
+            formControlName="lessonType"
+            placeholder="{{ txt.fields.lessonType.label }}">
+            <md-option *ngFor="let item of lessonTypeList" [value]="item.id">{{ item.value }}</md-option>
+          </md-select>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex>
+          <md-select
+            style="width:100%"
+            disabled="true"
+            formControlName="simulatorId"
+            placeholder="{{ txt.fields.simulatorId.label }}">
+            <md-option *ngFor="let item of data.simulatorlist" [value]="item.simulator.id">{{ item.simulator.name }}</md-option>
+          </md-select>
+        </div>
+        <div class="card-form-input" fxFlex>
+          <md-select
+            style="width:100%"
+            disabled="true"
+            formControlName="vehicleModelId"
+            placeholder="{{ txt.fields.vehicleModelId.label }}">
+            <md-option *ngFor="let item of data.vehiclesList" [value]="item.id">{{ item.name }}</md-option>
+          </md-select>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="70">
+          <md-select
+            [class.invalido]="formErrors.instructorId.length > 0"
+            style="width:100%"
+            [disabled]="!editable"
+            (change)="onChangeValues()"
+            formControlName="instructorId"
+            placeholder="{{ txt.fields.instructorId.label }}">
+            <md-option *ngFor="let item of data.instructorList" [value]="item.id">{{ item.name }}</md-option>
+          </md-select>
+          <error-message [listErrors]="formErrors.instructorId"></error-message>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxflex>
+          <md2-datepicker
+            type="time"
+            formControlName="startDate"
+            placeholder="{{ txt.fields.period.label.period }}"
+            [disabled]="!editable"
+            (change)="onChangeStartDate()"
+            format="HH:mm">
+          </md2-datepicker>
+          <error-message [listErrors]="formErrors.startDate"></error-message>
+        </div>
+        <div class="card-form-input" fxflex>
+          <md2-datepicker
+            type="date"
+            formControlName="endDate"
+            placeholder="{{ txt.fields.period.label.at }}"
+            disabled="true"
+            format="HH:mm">
+          </md2-datepicker>
+        </div>
+        <div class="card-form-input" fxflex></div>
+      </div>
+      <!-- <error-message [listErrors]="formErrors.holidayDate"></error-message> -->
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="100">
+        <div class="card-form-input" fxFlex="70">
+          <md-select
+            style="width:100%"
+            formControlName="moduleId"
+            [disabled]="!(moduleListLoaded && editable)"
+            placeholder="{{ txt.fields.moduleId.label }}">
+            <md-option *ngFor="let item of moduleList" [value]="item.id">{{ item.name }}</md-option>
+          </md-select>
+        </div>
+        <div class="card-form-input" fxFlex></div>
+      </div>
+      <!-- [class.invalido]="formErrors.lessonId.length > 0" -->
+      <!-- (onClose)="onChangeValues()" -->
+      <!-- <error-message [listErrors]="formErrors.lessonId"></error-message> -->
+
+      <!-- <form-debug [form]="form"></form-debug> -->
+    </div>
+
+    <div md-dialog-actions class="action-flex">
+      <button md-raised-button *ngIf="!errorMsgSent && canCancel" [disabled]="loading" color="warn" (click)="cancelSimulationLesson($event)">
+        {{ txt.buttons.cancelSchedule }}
+      </button>
+      <div class="space-flex" *ngIf="!errorMsgSent"></div>
+      <button md-raised-button *ngIf="!errorMsgSent" [disabled]="loading" color="default" (click)="cancel($event)">
+        {{ editable ? txt.buttons.cancel : txt.buttons.close }}
+      </button>
+      <button md-raised-button *ngIf="!errorMsgSent && editable" [disabled]="loading" color="primary" type="submit">
+        {{ txt.buttons.save }}
+      </button>
+
+      <div class="alert alert-danger space-flex" *ngIf="errorMsgSent">
+        {{ errorMsgSent }}
+      </div>
+    </div>
+</form>
